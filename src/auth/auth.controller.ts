@@ -1,34 +1,52 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Req,
+  UseInterceptors,
+  UseGuards,
+  Get,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { Request } from 'express';
+import { RegistrationInterceptor } from './registration-interceptor/registration.interceptor';
+import { IsPublic } from './decorators/is-public.decorator';
+import { AuthGuard } from '@nestjs/passport';
+import { User } from 'src/generated/prisma/client';
+import { UsersService } from 'src/users/users.service';
+import { JwtGuard } from './guards/jwt/jwt.guard';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly usersService: UsersService,
+  ) {}
 
-  @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  @Post('signin')
+  @UseGuards(AuthGuard('local'))
+  @IsPublic()
+  signin(@Req() req: Request & { user: User }) {
+    console.log(req.user);
+
+    return this.authService.signToken({
+      email: req.user.email,
+      userId: req.user.id,
+    });
   }
 
-  @Get()
-  findAll() {
-    return this.authService.findAll();
+  @UseGuards(JwtGuard)
+  @Get('me')
+  async getProfile(@Req() req: Request & { user: { userId: number } }) {
+    return await this.usersService.findOne(req.user.userId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+  @UseInterceptors(RegistrationInterceptor)
+  @IsPublic()
+  @Post('signup')
+  signup(@Req() req: Request & { user: User }) {
+    return this.authService.signToken({
+      email: req.user.email,
+      userId: req.user.id,
+    });
   }
 }
