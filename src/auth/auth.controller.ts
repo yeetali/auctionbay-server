@@ -5,6 +5,8 @@ import {
   UseInterceptors,
   UseGuards,
   Get,
+  Patch,
+  Body,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Request } from 'express';
@@ -13,7 +15,7 @@ import { IsPublic } from './decorators/is-public.decorator';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from 'src/generated/prisma/client';
 import { UsersService } from 'src/users/users.service';
-import { JwtGuard } from './guards/jwt/jwt.guard';
+import { UpdatePasswordDto } from 'src/users/dto/update-password.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -22,7 +24,7 @@ export class AuthController {
     private readonly usersService: UsersService,
   ) {}
 
-  @Post('signin')
+  @Post('login')
   @UseGuards(AuthGuard('local'))
   @IsPublic()
   signin(@Req() req: Request & { user: User }) {
@@ -34,7 +36,6 @@ export class AuthController {
     });
   }
 
-  @UseGuards(JwtGuard)
   @Get('me')
   async getProfile(@Req() req: Request & { user: { userId: number } }) {
     return await this.usersService.findOne(req.user.userId);
@@ -48,5 +49,13 @@ export class AuthController {
       email: req.user.email,
       userId: req.user.id,
     });
+  }
+
+  @Patch('me/update-password')
+  updatePassword(
+    @Req() req: Request & { user: { userId: number } },
+    @Body() dto: UpdatePasswordDto,
+  ) {
+    return this.usersService.resetPassword(req.user.userId, dto);
   }
 }

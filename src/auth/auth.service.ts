@@ -15,7 +15,7 @@ export class AuthService {
       where: { email },
     });
 
-    if (user && this.dehash(password, user.password)) {
+    if (user && this.compare(password, user.password)) {
       const { password: _pass, ...result } = user;
       return result;
     }
@@ -34,7 +34,7 @@ export class AuthService {
     return bcrypt.hashSync(password, salt);
   }
 
-  dehash(password: string, hashedPassword: string) {
+  compare(password: string, hashedPassword: string) {
     return bcrypt.compareSync(password, hashedPassword);
   }
 }
