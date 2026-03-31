@@ -17,7 +17,7 @@ import { User } from 'src/generated/prisma/client';
 import { UsersService } from 'src/users/users.service';
 import { UpdatePasswordDto } from 'src/users/dto/update-password.dto';
 
-@Controller('auth')
+@Controller()
 export class AuthController {
   constructor(
     private readonly authService: AuthService,

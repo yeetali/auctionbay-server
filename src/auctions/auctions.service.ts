@@ -1,23 +1,79 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateAuctionDto } from './dto/create-auction.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateAuctionDto } from './dto/update-auction.dto';
 
 @Injectable()
 export class AuctionsService {
-  create(createAuctionDto: CreateAuctionDto) {
-    return 'This action adds a new auction';
+  constructor(private readonly prismaService: PrismaService) {}
+
+  async create(
+    userId: number,
+    dto: CreateAuctionDto,
+    file?: Express.Multer.File,
+  ) {
+    try {
+      if (new Date(dto.endDate) <= new Date()) {
+        throw new BadRequestException('Invalid end date');
+      }
+      return await this.prismaService.auction.create({
+        data: {
+          ...dto,
+          authorId: userId,
+          image: file ? file.filename : null,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException(error);
+    }
   }
 
-  findAll() {
-    return `This action returns all auctions`;
+  async findAll() {
+    return await this.prismaService.auction.findMany({
+      where: {
+        endDate: {
+          gt: new Date(),
+        },
+      },
+      orderBy: {
+        endDate: 'asc',
+      },
+      include: {
+        bids: {
+          orderBy: { amount: 'desc' },
+          take: 1,
+        },
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auction`;
-  }
+  async updateAuction(
+    userId: number,
+    auctionId: number,
+    dto: UpdateAuctionDto,
+  ) {
+    const auction = await this.prismaService.auction.findUnique({
+      where: { id: auctionId },
+    });
 
-  update(id: number, updateAuctionDto: UpdateAuctionDto) {
-    return `This action updates a #${id} auction`;
+    if (!auction?.endDate)
+      throw new BadRequestException('Auction date missing');
+    if (new Date(auction?.endDate) < new Date())
+      throw new BadRequestException('Auction ended');
+    if (!auction) throw new NotFoundException('Auction not found');
+    if (auction.authorId !== userId)
+      throw new ForbiddenException('You can only update your own auctions');
+
+    return await this.prismaService.auction.update({
+      where: { id: auctionId },
+      data: dto,
+    });
   }
 
   remove(id: number) {

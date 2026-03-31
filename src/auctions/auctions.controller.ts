@@ -1,34 +1,64 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Req,
+  Patch,
+  ParseIntPipe,
+  UseInterceptors,
+  UploadedFile,
+} from '@nestjs/common';
 import { AuctionsService } from './auctions.service';
 import { CreateAuctionDto } from './dto/create-auction.dto';
+import { Request } from 'express';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 import { UpdateAuctionDto } from './dto/update-auction.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 
-@Controller('auctions')
+@Controller()
 export class AuctionsController {
   constructor(private readonly auctionsService: AuctionsService) {}
 
-  @Post()
-  create(@Body() createAuctionDto: CreateAuctionDto) {
-    return this.auctionsService.create(createAuctionDto);
+  @Post('me/auction')
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './uploads',
+        filename: (req, file, cb) => {
+          const uniqueName = Date.now() + '-' + file.originalname;
+          cb(null, uniqueName);
+        },
+      }),
+    }),
+  )
+  async createAuction(
+    @UploadedFile() file: Express.Multer.File,
+    @Req() req: Request & { user: { userId: number } },
+    @Body() createAuctionDto: CreateAuctionDto,
+  ) {
+    return await this.auctionsService.create(
+      req.user.userId,
+      createAuctionDto,
+      file,
+    );
   }
 
-  @Get()
+  @IsPublic()
+  @Get('auctions')
   findAll() {
     return this.auctionsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.auctionsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuctionDto: UpdateAuctionDto) {
-    return this.auctionsService.update(+id, updateAuctionDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.auctionsService.remove(+id);
+  @Patch('me/auction/:id')
+  @UseInterceptors(FileInterceptor('image'))
+  updateAuction(
+    @Req() req: Request & { user: { userId: number } },
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateAuctionDto,
+  ) {
+    return this.auctionsService.updateAuction(req.user.userId, id, dto);
   }
 }

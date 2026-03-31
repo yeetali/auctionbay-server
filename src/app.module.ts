@@ -8,6 +8,8 @@ import { BidsModule } from './bids/bids.module';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtGuard } from './auth/guards/jwt/jwt.guard';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -17,6 +19,9 @@ import { JwtGuard } from './auth/guards/jwt/jwt.guard';
     BidsModule,
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
     }),
   ],
   controllers: [AppController],

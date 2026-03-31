@@ -684,6 +684,7 @@ export const AuctionScalarFieldEnum = {
   description: 'description',
   startingPrice: 'startingPrice',
   endDate: 'endDate',
+  image: 'image',
   authorId: 'authorId'
 } as const
 
