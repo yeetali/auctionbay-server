@@ -28,8 +28,6 @@ export class AuthController {
   @UseGuards(AuthGuard('local'))
   @IsPublic()
   signin(@Req() req: Request & { user: User }) {
-    console.log(req.user);
-
     return this.authService.signToken({
       email: req.user.email,
       userId: req.user.id,
