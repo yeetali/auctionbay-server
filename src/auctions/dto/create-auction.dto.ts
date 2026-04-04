@@ -4,16 +4,16 @@ import { IsDateString, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 export class CreateAuctionDto {
   @IsString()
   @IsNotEmpty()
-  title: string;
+  title!: string;
 
   @IsString()
-  description: string;
+  description?: string;
 
   @IsNotEmpty()
   @IsNumber()
   @Type(() => Number)
-  startingPrice: number;
+  startingPrice!: number;
 
   @IsDateString()
-  endDate: Date;
+  endDate!: Date;
 }
