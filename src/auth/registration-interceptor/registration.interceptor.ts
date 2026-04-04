@@ -32,8 +32,7 @@ export class RegistrationInterceptor implements NestInterceptor {
       ...createUserDto,
       password: this.authService.hash(createUserDto.password),
     });
-
-    request.body = user;
+    request.user = user;
     return next.handle();
   }
 }
