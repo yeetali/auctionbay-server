@@ -1,26 +1,52 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateBidDto } from './dto/create-bid.dto';
-import { UpdateBidDto } from './dto/update-bid.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class BidsService {
-  create(createBidDto: CreateBidDto) {
-    return 'This action adds a new bid';
-  }
+  constructor(private readonly prismaService: PrismaService) {}
 
-  findAll() {
-    return `This action returns all bids`;
-  }
+  async create(auctionId: number, userId: number, createBidDto: CreateBidDto) {
+    const auction = await this.prismaService.auction.findUnique({
+      where: { id: auctionId },
+    });
+    if (!auction) {
+      throw new NotFoundException('Auction not found');
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} bid`;
-  }
+    if (auction.endDate < new Date()) {
+      throw new BadRequestException('Auction has already ended');
+    }
 
-  update(id: number, updateBidDto: UpdateBidDto) {
-    return `This action updates a #${id} bid`;
-  }
+    if (auction.authorId === userId) {
+      throw new BadRequestException('You cannot bid on your own auction');
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} bid`;
+    const highestBid = await this.prismaService.bid.findFirst({
+      where: { auctionId },
+      orderBy: { amount: 'desc' },
+      select: { amount: true },
+    });
+
+    const currentPrice = highestBid ? highestBid.amount : auction.startingPrice;
+
+    if (createBidDto.amount <= currentPrice) {
+      throw new BadRequestException(`Bid must be higher than ${currentPrice}`);
+    }
+
+    const bid = await this.prismaService.bid.create({
+      data: {
+        amount: createBidDto.amount,
+        auctionId,
+        userId,
+      },
+      select: { amount: true },
+    });
+
+    return bid;
   }
 }
