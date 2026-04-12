@@ -48,6 +48,7 @@ export class AuctionsService {
         bids: {
           orderBy: { amount: 'desc' },
           take: 1,
+          select: { amount: true },
         },
       },
     });
