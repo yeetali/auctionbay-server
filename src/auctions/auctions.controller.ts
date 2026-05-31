@@ -13,15 +13,18 @@ import {
 import { AuctionsService } from './auctions.service';
 import { CreateAuctionDto } from './dto/create-auction.dto';
 import { Request } from 'express';
-import { IsPublic } from 'src/auth/decorators/is-public.decorator';
+import { IsPublic } from '../auth/decorators/is-public.decorator';
 import { UpdateAuctionDto } from './dto/update-auction.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 
 @Controller()
 export class AuctionsController {
   constructor(private readonly auctionsService: AuctionsService) {}
 
+  @ApiBody({ type: CreateAuctionDto, description: 'Create a new auction' })
+  @ApiConsumes('multipart/form-data')
   @Post('me/auction')
   @UseInterceptors(
     FileInterceptor('image', {

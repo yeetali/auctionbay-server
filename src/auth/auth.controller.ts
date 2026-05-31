@@ -16,6 +16,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { User } from 'src/generated/prisma/client';
 import { UsersService } from 'src/users/users.service';
 import { UpdatePasswordDto } from 'src/users/dto/update-password.dto';
+import { ApiBody } from '@nestjs/swagger';
+import { CreateUserDto } from '../users/dto/create-user.dto';
+import { SignInDto } from './dto/sign-in.dto';
 
 @Controller()
 export class AuthController {
@@ -24,6 +27,10 @@ export class AuthController {
     private readonly usersService: UsersService,
   ) {}
 
+  @ApiBody({
+    type: SignInDto,
+    description: 'Login with existing user credentials',
+  })
   @Post('login')
   @UseGuards(AuthGuard('local'))
   @IsPublic()
@@ -39,6 +46,7 @@ export class AuthController {
     return await this.usersService.findOne(req.user.userId);
   }
 
+  @ApiBody({ type: CreateUserDto, description: 'Register a new user' })
   @UseInterceptors(RegistrationInterceptor)
   @IsPublic()
   @Post('signup')

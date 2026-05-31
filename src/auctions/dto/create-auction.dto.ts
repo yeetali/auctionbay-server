@@ -1,5 +1,12 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsDateString, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsDateString,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateAuctionDto {
   @IsString()
@@ -13,6 +20,10 @@ export class CreateAuctionDto {
   @IsNumber()
   @Type(() => Number)
   startingPrice!: number;
+
+  @IsOptional()
+  @ApiProperty({ type: 'string', format: 'binary', required: false })
+  media?: any;
 
   @IsDateString()
   endDate!: Date;
