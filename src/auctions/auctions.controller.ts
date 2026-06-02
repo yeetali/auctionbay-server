@@ -27,7 +27,7 @@ export class AuctionsController {
   @ApiConsumes('multipart/form-data')
   @Post('me/auction')
   @UseInterceptors(
-    FileInterceptor('image', {
+    FileInterceptor('media', {
       storage: diskStorage({
         destination: './uploads',
         filename: (req, file, cb) => {
@@ -56,7 +56,7 @@ export class AuctionsController {
   }
 
   @Patch('me/auction/:id')
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FileInterceptor('media'))
   updateAuction(
     @Req() req: Request & { user: { userId: number } },
     @Param('id', ParseIntPipe) id: number,
