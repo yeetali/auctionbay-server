@@ -1,7 +1,8 @@
-import { ExtractJwt, Strategy } from 'passport-jwt';
+import { Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Request } from 'express';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -11,7 +12,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new Error('JWT_SECRET is not defined in configuration');
     }
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: (req: Request) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        const token = req?.cookies?.access_token as string | undefined;
+        console.log('Extracted JWT from cookie:', token);
+        return token ?? null;
+      },
       ignoreExpiration: false,
       secretOrKey: secret,
     });

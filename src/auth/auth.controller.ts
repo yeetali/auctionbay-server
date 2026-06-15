@@ -7,9 +7,10 @@ import {
   Get,
   Patch,
   Body,
+  Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { RegistrationInterceptor } from './registration-interceptor/registration.interceptor';
 import { IsPublic } from './decorators/is-public.decorator';
 import { AuthGuard } from '@nestjs/passport';
@@ -34,10 +35,19 @@ export class AuthController {
   @Post('login')
   @UseGuards(AuthGuard('local'))
   @IsPublic()
-  signin(@Req() req: Request & { user: User }) {
-    return this.authService.signToken({
+  signin(
+    @Req() req: Request & { user: User },
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const { access_token } = this.authService.signToken({
       email: req.user.email,
       userId: req.user.id,
+    });
+    res.cookie('access_token', access_token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 1000, // 1 hour
     });
   }
 
@@ -50,10 +60,19 @@ export class AuthController {
   @UseInterceptors(RegistrationInterceptor)
   @IsPublic()
   @Post('signup')
-  signup(@Req() req: Request & { user: User }) {
-    return this.authService.signToken({
+  signup(
+    @Req() req: Request & { user: User },
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const { access_token } = this.authService.signToken({
       email: req.user.email,
       userId: req.user.id,
+    });
+    res.cookie('access_token', access_token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 1000, // 1 hour
     });
   }
 
