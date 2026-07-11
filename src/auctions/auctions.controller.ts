@@ -17,7 +17,7 @@ import { IsPublic } from '../auth/decorators/is-public.decorator';
 import { UpdateAuctionDto } from './dto/update-auction.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { ApiBody, ApiConsumes } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiResponse } from '@nestjs/swagger';
 
 @Controller()
 export class AuctionsController {
@@ -51,6 +51,7 @@ export class AuctionsController {
 
   @IsPublic()
   @Get('auctions')
+  @ApiResponse({ status: 200, type: [CreateAuctionDto] })
   findAll() {
     return this.auctionsService.findAll();
   }
