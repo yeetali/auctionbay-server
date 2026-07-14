@@ -15,7 +15,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       jwtFromRequest: (req: Request) => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         const token = req?.cookies?.access_token as string | undefined;
-        console.log('Extracted JWT from cookie:', token);
         return token ?? null;
       },
       ignoreExpiration: false,
