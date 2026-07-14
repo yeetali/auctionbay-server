@@ -23,7 +23,7 @@ export class CreateAuctionDto {
 
   @IsOptional()
   @ApiProperty({ type: 'string', format: 'binary', required: false })
-  media?: any;
+  image?: any;
 
   @IsDateString()
   endDate!: Date;
