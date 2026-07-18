@@ -57,12 +57,24 @@ export class AuctionsController {
   }
 
   @Patch('me/auction/:id')
-  @UseInterceptors(FileInterceptor('media'))
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(
+    FileInterceptor('media', {
+      storage: diskStorage({
+        destination: './uploads',
+        filename: (req, file, cb) => {
+          const uniqueName = Date.now() + '-' + file.originalname;
+          cb(null, uniqueName);
+        },
+      }),
+    }),
+  )
   updateAuction(
+    @UploadedFile() file: Express.Multer.File,
     @Req() req: Request & { user: { userId: number } },
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateAuctionDto,
   ) {
-    return this.auctionsService.updateAuction(req.user.userId, id, dto);
+    return this.auctionsService.updateAuction(req.user.userId, id, dto, file);
   }
 }

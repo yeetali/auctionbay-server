@@ -58,6 +58,7 @@ export class AuctionsService {
     userId: number,
     auctionId: number,
     dto: UpdateAuctionDto,
+    file?: Express.Multer.File,
   ) {
     const auction = await this.prismaService.auction.findUnique({
       where: { id: auctionId },
@@ -73,7 +74,10 @@ export class AuctionsService {
 
     return await this.prismaService.auction.update({
       where: { id: auctionId },
-      data: dto,
+      data: {
+        ...dto,
+        image: file ? file.filename : null,
+      },
     });
   }
 
