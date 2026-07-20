@@ -44,7 +44,7 @@ export class BidsService {
         auctionId,
         userId,
       },
-      select: { amount: true },
+      select: { amount: true, userId: true },
     });
 
     return bid;
