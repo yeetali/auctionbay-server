@@ -54,6 +54,21 @@ export class AuctionsService {
     });
   }
 
+  async findAuction(id: number) {
+    const auction = await this.prismaService.auction.findUnique({
+      where: { id },
+      include: {
+        bids: {
+          orderBy: { amount: 'desc' },
+        },
+      },
+    });
+    if (!auction) {
+      throw new NotFoundException('Auction not found');
+    }
+    return auction;
+  }
+
   async updateAuction(
     userId: number,
     auctionId: number,

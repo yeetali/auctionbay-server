@@ -56,6 +56,13 @@ export class AuctionsController {
     return this.auctionsService.findAll();
   }
 
+  @IsPublic()
+  @Get('auctions/:id')
+  @ApiResponse({ status: 200, type: CreateAuctionDto })
+  findAuction(@Param('id') id: number) {
+    return this.auctionsService.findAuction(id);
+  }
+
   @Patch('me/auction/:id')
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(
