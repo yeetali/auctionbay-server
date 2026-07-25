@@ -60,6 +60,14 @@ export class AuctionsService {
       include: {
         bids: {
           orderBy: { amount: 'desc' },
+          include: {
+            user: {
+              select: {
+                firstName: true,
+                lastName: true,
+              },
+            },
+          },
         },
       },
     });

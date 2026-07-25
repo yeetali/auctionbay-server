@@ -18,6 +18,7 @@ import { UpdateAuctionDto } from './dto/update-auction.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { ApiBody, ApiConsumes, ApiResponse } from '@nestjs/swagger';
+import { AuctionResponseDto } from './dto/auction-resposne.dto';
 
 @Controller()
 export class AuctionsController {
@@ -58,7 +59,7 @@ export class AuctionsController {
 
   @IsPublic()
   @Get('auctions/:id')
-  @ApiResponse({ status: 200, type: CreateAuctionDto })
+  @ApiResponse({ status: 200, type: AuctionResponseDto })
   findAuction(@Param('id') id: number) {
     return this.auctionsService.findAuction(id);
   }

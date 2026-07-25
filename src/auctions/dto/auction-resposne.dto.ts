@@ -1,14 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
+  IsArray,
   IsDateString,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator';
+import { BidResponseDto } from 'src/bids/dto/bid-response.dto';
 
-export class CreateAuctionDto {
+export class AuctionResponseDto {
   @IsNumber()
   @IsNotEmpty()
   id!: number;
@@ -31,4 +33,8 @@ export class CreateAuctionDto {
 
   @IsDateString()
   endDate!: Date;
+
+  @IsArray()
+  @ApiProperty({ type: [BidResponseDto] })
+  bids?: BidResponseDto[];
 }
