@@ -8,6 +8,7 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -15,10 +16,39 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     try {
-      return await this.prismaService.user.create({ data: createUserDto });
+      return await this.prismaService.user.create({
+        data: createUserDto,
+        select: {
+          firstName: true,
+          lastName: true,
+          email: true,
+          image: true,
+        },
+      });
     } catch (error) {
       throw new BadRequestException(error);
     }
+  }
+
+  async update(
+    userId: number,
+    updateUserDto: UpdateUserDto,
+    file?: Express.Multer.File,
+  ) {
+    return await this.prismaService.user.update({
+      where: { id: userId },
+      data: {
+        ...updateUserDto,
+        ...(file && { image: file.filename }),
+      },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        image: true,
+      },
+    });
   }
 
   async findAll() {
@@ -38,6 +68,7 @@ export class UsersService {
           firstName: true,
           lastName: true,
           email: true,
+          image: true,
         },
       });
       if (!user) throw new NotFoundException(`User with ID ${id} not found`);

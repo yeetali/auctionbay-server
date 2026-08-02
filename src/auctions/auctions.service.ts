@@ -50,6 +50,9 @@ export class AuctionsService {
           take: 1,
           select: { amount: true, userId: true },
         },
+        autoBids: {
+          orderBy: { maxPrice: 'desc' },
+        },
       },
     });
   }
@@ -65,6 +68,7 @@ export class AuctionsService {
               select: {
                 firstName: true,
                 lastName: true,
+                image: true,
               },
             },
           },

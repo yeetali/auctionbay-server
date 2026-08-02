@@ -9,10 +9,6 @@ import {
 } from 'class-validator';
 
 export class CreateAuctionDto {
-  @IsNumber()
-  @IsNotEmpty()
-  id!: number;
-
   @IsString()
   @IsNotEmpty()
   title!: string;

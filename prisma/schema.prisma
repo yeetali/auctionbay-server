@@ -15,15 +15,16 @@ datasource db {
 }
 
 model User {
-  id        Int    @id @default(autoincrement())
-  email     String @unique
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
   firstName String
   lastName  String
   password  String
-
+  image     String?
   //Users created auctions and placed bids
-  auctions Auction[]
-  bids     Bid[]
+  auctions  Auction[]
+  bids      Bid[]
+  autoBids  AutoBid[]
 }
 
 model Auction {
@@ -37,7 +38,8 @@ model Auction {
   authorId      Int
 
   //Bids on specific auction
-  bids Bid[]
+  bids     Bid[]
+  autoBids AutoBid[]
 }
 
 model Bid {
@@ -52,4 +54,16 @@ model Bid {
   //Correlating auction
   auction   Auction? @relation(fields: [auctionId], references: [id])
   auctionId Int?
+}
+
+model AutoBid {
+  id        Int     @id @default(autoincrement())
+  increment Float
+  maxPrice  Float
+  userId    Int
+  auctionId Int
+  user      User    @relation(fields: [userId], references: [id])
+  auction   Auction @relation(fields: [auctionId], references: [id])
+
+  @@unique([userId, auctionId])
 }

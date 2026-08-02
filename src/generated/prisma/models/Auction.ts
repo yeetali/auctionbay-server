@@ -242,6 +242,7 @@ export type AuctionWhereInput = {
   authorId?: Prisma.IntFilter<"Auction"> | number
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   bids?: Prisma.BidListRelationFilter
+  autoBids?: Prisma.AutoBidListRelationFilter
 }
 
 export type AuctionOrderByWithRelationInput = {
@@ -254,6 +255,7 @@ export type AuctionOrderByWithRelationInput = {
   authorId?: Prisma.SortOrder
   author?: Prisma.UserOrderByWithRelationInput
   bids?: Prisma.BidOrderByRelationAggregateInput
+  autoBids?: Prisma.AutoBidOrderByRelationAggregateInput
 }
 
 export type AuctionWhereUniqueInput = Prisma.AtLeast<{
@@ -269,6 +271,7 @@ export type AuctionWhereUniqueInput = Prisma.AtLeast<{
   authorId?: Prisma.IntFilter<"Auction"> | number
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   bids?: Prisma.BidListRelationFilter
+  autoBids?: Prisma.AutoBidListRelationFilter
 }, "id">
 
 export type AuctionOrderByWithAggregationInput = {
@@ -307,6 +310,7 @@ export type AuctionCreateInput = {
   image?: string | null
   author: Prisma.UserCreateNestedOneWithoutAuctionsInput
   bids?: Prisma.BidCreateNestedManyWithoutAuctionInput
+  autoBids?: Prisma.AutoBidCreateNestedManyWithoutAuctionInput
 }
 
 export type AuctionUncheckedCreateInput = {
@@ -318,6 +322,7 @@ export type AuctionUncheckedCreateInput = {
   image?: string | null
   authorId: number
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutAuctionInput
+  autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutAuctionInput
 }
 
 export type AuctionUpdateInput = {
@@ -328,6 +333,7 @@ export type AuctionUpdateInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   author?: Prisma.UserUpdateOneRequiredWithoutAuctionsNestedInput
   bids?: Prisma.BidUpdateManyWithoutAuctionNestedInput
+  autoBids?: Prisma.AutoBidUpdateManyWithoutAuctionNestedInput
 }
 
 export type AuctionUncheckedUpdateInput = {
@@ -339,6 +345,7 @@ export type AuctionUncheckedUpdateInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   bids?: Prisma.BidUncheckedUpdateManyWithoutAuctionNestedInput
+  autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutAuctionNestedInput
 }
 
 export type AuctionCreateManyInput = {
@@ -426,6 +433,11 @@ export type AuctionNullableScalarRelationFilter = {
   isNot?: Prisma.AuctionWhereInput | null
 }
 
+export type AuctionScalarRelationFilter = {
+  is?: Prisma.AuctionWhereInput
+  isNot?: Prisma.AuctionWhereInput
+}
+
 export type AuctionCreateNestedManyWithoutAuthorInput = {
   create?: Prisma.XOR<Prisma.AuctionCreateWithoutAuthorInput, Prisma.AuctionUncheckedCreateWithoutAuthorInput> | Prisma.AuctionCreateWithoutAuthorInput[] | Prisma.AuctionUncheckedCreateWithoutAuthorInput[]
   connectOrCreate?: Prisma.AuctionCreateOrConnectWithoutAuthorInput | Prisma.AuctionCreateOrConnectWithoutAuthorInput[]
@@ -468,10 +480,6 @@ export type AuctionUncheckedUpdateManyWithoutAuthorNestedInput = {
   deleteMany?: Prisma.AuctionScalarWhereInput | Prisma.AuctionScalarWhereInput[]
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type FloatFieldUpdateOperationsInput = {
   set?: number
   increment?: number
@@ -500,6 +508,20 @@ export type AuctionUpdateOneWithoutBidsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AuctionUpdateToOneWithWhereWithoutBidsInput, Prisma.AuctionUpdateWithoutBidsInput>, Prisma.AuctionUncheckedUpdateWithoutBidsInput>
 }
 
+export type AuctionCreateNestedOneWithoutAutoBidsInput = {
+  create?: Prisma.XOR<Prisma.AuctionCreateWithoutAutoBidsInput, Prisma.AuctionUncheckedCreateWithoutAutoBidsInput>
+  connectOrCreate?: Prisma.AuctionCreateOrConnectWithoutAutoBidsInput
+  connect?: Prisma.AuctionWhereUniqueInput
+}
+
+export type AuctionUpdateOneRequiredWithoutAutoBidsNestedInput = {
+  create?: Prisma.XOR<Prisma.AuctionCreateWithoutAutoBidsInput, Prisma.AuctionUncheckedCreateWithoutAutoBidsInput>
+  connectOrCreate?: Prisma.AuctionCreateOrConnectWithoutAutoBidsInput
+  upsert?: Prisma.AuctionUpsertWithoutAutoBidsInput
+  connect?: Prisma.AuctionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AuctionUpdateToOneWithWhereWithoutAutoBidsInput, Prisma.AuctionUpdateWithoutAutoBidsInput>, Prisma.AuctionUncheckedUpdateWithoutAutoBidsInput>
+}
+
 export type AuctionCreateWithoutAuthorInput = {
   title: string
   description?: string | null
@@ -507,6 +529,7 @@ export type AuctionCreateWithoutAuthorInput = {
   endDate: Date | string
   image?: string | null
   bids?: Prisma.BidCreateNestedManyWithoutAuctionInput
+  autoBids?: Prisma.AutoBidCreateNestedManyWithoutAuctionInput
 }
 
 export type AuctionUncheckedCreateWithoutAuthorInput = {
@@ -517,6 +540,7 @@ export type AuctionUncheckedCreateWithoutAuthorInput = {
   endDate: Date | string
   image?: string | null
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutAuctionInput
+  autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutAuctionInput
 }
 
 export type AuctionCreateOrConnectWithoutAuthorInput = {
@@ -565,6 +589,7 @@ export type AuctionCreateWithoutBidsInput = {
   endDate: Date | string
   image?: string | null
   author: Prisma.UserCreateNestedOneWithoutAuctionsInput
+  autoBids?: Prisma.AutoBidCreateNestedManyWithoutAuctionInput
 }
 
 export type AuctionUncheckedCreateWithoutBidsInput = {
@@ -575,6 +600,7 @@ export type AuctionUncheckedCreateWithoutBidsInput = {
   endDate: Date | string
   image?: string | null
   authorId: number
+  autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutAuctionInput
 }
 
 export type AuctionCreateOrConnectWithoutBidsInput = {
@@ -600,6 +626,7 @@ export type AuctionUpdateWithoutBidsInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   author?: Prisma.UserUpdateOneRequiredWithoutAuctionsNestedInput
+  autoBids?: Prisma.AutoBidUpdateManyWithoutAuctionNestedInput
 }
 
 export type AuctionUncheckedUpdateWithoutBidsInput = {
@@ -610,6 +637,65 @@ export type AuctionUncheckedUpdateWithoutBidsInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutAuctionNestedInput
+}
+
+export type AuctionCreateWithoutAutoBidsInput = {
+  title: string
+  description?: string | null
+  startingPrice: number
+  endDate: Date | string
+  image?: string | null
+  author: Prisma.UserCreateNestedOneWithoutAuctionsInput
+  bids?: Prisma.BidCreateNestedManyWithoutAuctionInput
+}
+
+export type AuctionUncheckedCreateWithoutAutoBidsInput = {
+  id?: number
+  title: string
+  description?: string | null
+  startingPrice: number
+  endDate: Date | string
+  image?: string | null
+  authorId: number
+  bids?: Prisma.BidUncheckedCreateNestedManyWithoutAuctionInput
+}
+
+export type AuctionCreateOrConnectWithoutAutoBidsInput = {
+  where: Prisma.AuctionWhereUniqueInput
+  create: Prisma.XOR<Prisma.AuctionCreateWithoutAutoBidsInput, Prisma.AuctionUncheckedCreateWithoutAutoBidsInput>
+}
+
+export type AuctionUpsertWithoutAutoBidsInput = {
+  update: Prisma.XOR<Prisma.AuctionUpdateWithoutAutoBidsInput, Prisma.AuctionUncheckedUpdateWithoutAutoBidsInput>
+  create: Prisma.XOR<Prisma.AuctionCreateWithoutAutoBidsInput, Prisma.AuctionUncheckedCreateWithoutAutoBidsInput>
+  where?: Prisma.AuctionWhereInput
+}
+
+export type AuctionUpdateToOneWithWhereWithoutAutoBidsInput = {
+  where?: Prisma.AuctionWhereInput
+  data: Prisma.XOR<Prisma.AuctionUpdateWithoutAutoBidsInput, Prisma.AuctionUncheckedUpdateWithoutAutoBidsInput>
+}
+
+export type AuctionUpdateWithoutAutoBidsInput = {
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startingPrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  author?: Prisma.UserUpdateOneRequiredWithoutAuctionsNestedInput
+  bids?: Prisma.BidUpdateManyWithoutAuctionNestedInput
+}
+
+export type AuctionUncheckedUpdateWithoutAutoBidsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startingPrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  bids?: Prisma.BidUncheckedUpdateManyWithoutAuctionNestedInput
 }
 
 export type AuctionCreateManyAuthorInput = {
@@ -628,6 +714,7 @@ export type AuctionUpdateWithoutAuthorInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bids?: Prisma.BidUpdateManyWithoutAuctionNestedInput
+  autoBids?: Prisma.AutoBidUpdateManyWithoutAuctionNestedInput
 }
 
 export type AuctionUncheckedUpdateWithoutAuthorInput = {
@@ -638,6 +725,7 @@ export type AuctionUncheckedUpdateWithoutAuthorInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bids?: Prisma.BidUncheckedUpdateManyWithoutAuctionNestedInput
+  autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutAuctionNestedInput
 }
 
 export type AuctionUncheckedUpdateManyWithoutAuthorInput = {
@@ -656,10 +744,12 @@ export type AuctionUncheckedUpdateManyWithoutAuthorInput = {
 
 export type AuctionCountOutputType = {
   bids: number
+  autoBids: number
 }
 
 export type AuctionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bids?: boolean | AuctionCountOutputTypeCountBidsArgs
+  autoBids?: boolean | AuctionCountOutputTypeCountAutoBidsArgs
 }
 
 /**
@@ -679,6 +769,13 @@ export type AuctionCountOutputTypeCountBidsArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.BidWhereInput
 }
 
+/**
+ * AuctionCountOutputType without action
+ */
+export type AuctionCountOutputTypeCountAutoBidsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AutoBidWhereInput
+}
+
 
 export type AuctionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -690,6 +787,7 @@ export type AuctionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   authorId?: boolean
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   bids?: boolean | Prisma.Auction$bidsArgs<ExtArgs>
+  autoBids?: boolean | Prisma.Auction$autoBidsArgs<ExtArgs>
   _count?: boolean | Prisma.AuctionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["auction"]>
 
@@ -729,6 +827,7 @@ export type AuctionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type AuctionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   bids?: boolean | Prisma.Auction$bidsArgs<ExtArgs>
+  autoBids?: boolean | Prisma.Auction$autoBidsArgs<ExtArgs>
   _count?: boolean | Prisma.AuctionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AuctionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -743,6 +842,7 @@ export type $AuctionPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   objects: {
     author: Prisma.$UserPayload<ExtArgs>
     bids: Prisma.$BidPayload<ExtArgs>[]
+    autoBids: Prisma.$AutoBidPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1148,6 +1248,7 @@ export interface Prisma__AuctionClient<T, Null = never, ExtArgs extends runtime.
   readonly [Symbol.toStringTag]: "PrismaPromise"
   author<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   bids<T extends Prisma.Auction$bidsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Auction$bidsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BidPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  autoBids<T extends Prisma.Auction$autoBidsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Auction$autoBidsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AutoBidPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1601,6 +1702,30 @@ export type Auction$bidsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.BidScalarFieldEnum | Prisma.BidScalarFieldEnum[]
+}
+
+/**
+ * Auction.autoBids
+ */
+export type Auction$autoBidsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AutoBid
+   */
+  select?: Prisma.AutoBidSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AutoBid
+   */
+  omit?: Prisma.AutoBidOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AutoBidInclude<ExtArgs> | null
+  where?: Prisma.AutoBidWhereInput
+  orderBy?: Prisma.AutoBidOrderByWithRelationInput | Prisma.AutoBidOrderByWithRelationInput[]
+  cursor?: Prisma.AutoBidWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AutoBidScalarFieldEnum | Prisma.AutoBidScalarFieldEnum[]
 }
 
 /**

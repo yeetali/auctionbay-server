@@ -40,6 +40,7 @@ export type UserMinAggregateOutputType = {
   firstName: string | null
   lastName: string | null
   password: string | null
+  image: string | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -48,6 +49,7 @@ export type UserMaxAggregateOutputType = {
   firstName: string | null
   lastName: string | null
   password: string | null
+  image: string | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -56,6 +58,7 @@ export type UserCountAggregateOutputType = {
   firstName: number
   lastName: number
   password: number
+  image: number
   _all: number
 }
 
@@ -74,6 +77,7 @@ export type UserMinAggregateInputType = {
   firstName?: true
   lastName?: true
   password?: true
+  image?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -82,6 +86,7 @@ export type UserMaxAggregateInputType = {
   firstName?: true
   lastName?: true
   password?: true
+  image?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -90,6 +95,7 @@ export type UserCountAggregateInputType = {
   firstName?: true
   lastName?: true
   password?: true
+  image?: true
   _all?: true
 }
 
@@ -185,6 +191,7 @@ export type UserGroupByOutputType = {
   firstName: string
   lastName: string
   password: string
+  image: string | null
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -216,8 +223,10 @@ export type UserWhereInput = {
   firstName?: Prisma.StringFilter<"User"> | string
   lastName?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
+  image?: Prisma.StringNullableFilter<"User"> | string | null
   auctions?: Prisma.AuctionListRelationFilter
   bids?: Prisma.BidListRelationFilter
+  autoBids?: Prisma.AutoBidListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -226,8 +235,10 @@ export type UserOrderByWithRelationInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  image?: Prisma.SortOrderInput | Prisma.SortOrder
   auctions?: Prisma.AuctionOrderByRelationAggregateInput
   bids?: Prisma.BidOrderByRelationAggregateInput
+  autoBids?: Prisma.AutoBidOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -239,8 +250,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   firstName?: Prisma.StringFilter<"User"> | string
   lastName?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
+  image?: Prisma.StringNullableFilter<"User"> | string | null
   auctions?: Prisma.AuctionListRelationFilter
   bids?: Prisma.BidListRelationFilter
+  autoBids?: Prisma.AutoBidListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -249,6 +262,7 @@ export type UserOrderByWithAggregationInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  image?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -265,6 +279,7 @@ export type UserScalarWhereWithAggregatesInput = {
   firstName?: Prisma.StringWithAggregatesFilter<"User"> | string
   lastName?: Prisma.StringWithAggregatesFilter<"User"> | string
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
+  image?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
 }
 
 export type UserCreateInput = {
@@ -272,8 +287,10 @@ export type UserCreateInput = {
   firstName: string
   lastName: string
   password: string
+  image?: string | null
   auctions?: Prisma.AuctionCreateNestedManyWithoutAuthorInput
   bids?: Prisma.BidCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -282,8 +299,10 @@ export type UserUncheckedCreateInput = {
   firstName: string
   lastName: string
   password: string
+  image?: string | null
   auctions?: Prisma.AuctionUncheckedCreateNestedManyWithoutAuthorInput
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -291,8 +310,10 @@ export type UserUpdateInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auctions?: Prisma.AuctionUpdateManyWithoutAuthorNestedInput
   bids?: Prisma.BidUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -301,8 +322,10 @@ export type UserUncheckedUpdateInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auctions?: Prisma.AuctionUncheckedUpdateManyWithoutAuthorNestedInput
   bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -311,6 +334,7 @@ export type UserCreateManyInput = {
   firstName: string
   lastName: string
   password: string
+  image?: string | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -318,6 +342,7 @@ export type UserUpdateManyMutationInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -326,6 +351,7 @@ export type UserUncheckedUpdateManyInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -334,6 +360,7 @@ export type UserCountOrderByAggregateInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  image?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
@@ -346,6 +373,7 @@ export type UserMaxOrderByAggregateInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  image?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -354,6 +382,7 @@ export type UserMinOrderByAggregateInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  image?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
@@ -367,6 +396,10 @@ export type UserScalarRelationFilter = {
 
 export type StringFieldUpdateOperationsInput = {
   set?: string
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -405,12 +438,28 @@ export type UserUpdateOneRequiredWithoutBidsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBidsInput, Prisma.UserUpdateWithoutBidsInput>, Prisma.UserUncheckedUpdateWithoutBidsInput>
 }
 
+export type UserCreateNestedOneWithoutAutoBidsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAutoBidsInput, Prisma.UserUncheckedCreateWithoutAutoBidsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAutoBidsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAutoBidsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAutoBidsInput, Prisma.UserUncheckedCreateWithoutAutoBidsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAutoBidsInput
+  upsert?: Prisma.UserUpsertWithoutAutoBidsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAutoBidsInput, Prisma.UserUpdateWithoutAutoBidsInput>, Prisma.UserUncheckedUpdateWithoutAutoBidsInput>
+}
+
 export type UserCreateWithoutAuctionsInput = {
   email: string
   firstName: string
   lastName: string
   password: string
+  image?: string | null
   bids?: Prisma.BidCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAuctionsInput = {
@@ -419,7 +468,9 @@ export type UserUncheckedCreateWithoutAuctionsInput = {
   firstName: string
   lastName: string
   password: string
+  image?: string | null
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
+  autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAuctionsInput = {
@@ -443,7 +494,9 @@ export type UserUpdateWithoutAuctionsInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bids?: Prisma.BidUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuctionsInput = {
@@ -452,7 +505,9 @@ export type UserUncheckedUpdateWithoutAuctionsInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
+  autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutBidsInput = {
@@ -460,7 +515,9 @@ export type UserCreateWithoutBidsInput = {
   firstName: string
   lastName: string
   password: string
+  image?: string | null
   auctions?: Prisma.AuctionCreateNestedManyWithoutAuthorInput
+  autoBids?: Prisma.AutoBidCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBidsInput = {
@@ -469,7 +526,9 @@ export type UserUncheckedCreateWithoutBidsInput = {
   firstName: string
   lastName: string
   password: string
+  image?: string | null
   auctions?: Prisma.AuctionUncheckedCreateNestedManyWithoutAuthorInput
+  autoBids?: Prisma.AutoBidUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBidsInput = {
@@ -493,7 +552,9 @@ export type UserUpdateWithoutBidsInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auctions?: Prisma.AuctionUpdateManyWithoutAuthorNestedInput
+  autoBids?: Prisma.AutoBidUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBidsInput = {
@@ -502,7 +563,67 @@ export type UserUncheckedUpdateWithoutBidsInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auctions?: Prisma.AuctionUncheckedUpdateManyWithoutAuthorNestedInput
+  autoBids?: Prisma.AutoBidUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutAutoBidsInput = {
+  email: string
+  firstName: string
+  lastName: string
+  password: string
+  image?: string | null
+  auctions?: Prisma.AuctionCreateNestedManyWithoutAuthorInput
+  bids?: Prisma.BidCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAutoBidsInput = {
+  id?: number
+  email: string
+  firstName: string
+  lastName: string
+  password: string
+  image?: string | null
+  auctions?: Prisma.AuctionUncheckedCreateNestedManyWithoutAuthorInput
+  bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAutoBidsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAutoBidsInput, Prisma.UserUncheckedCreateWithoutAutoBidsInput>
+}
+
+export type UserUpsertWithoutAutoBidsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAutoBidsInput, Prisma.UserUncheckedUpdateWithoutAutoBidsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAutoBidsInput, Prisma.UserUncheckedCreateWithoutAutoBidsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAutoBidsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAutoBidsInput, Prisma.UserUncheckedUpdateWithoutAutoBidsInput>
+}
+
+export type UserUpdateWithoutAutoBidsInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auctions?: Prisma.AuctionUpdateManyWithoutAuthorNestedInput
+  bids?: Prisma.BidUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAutoBidsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auctions?: Prisma.AuctionUncheckedUpdateManyWithoutAuthorNestedInput
+  bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -513,11 +634,13 @@ export type UserUncheckedUpdateWithoutBidsInput = {
 export type UserCountOutputType = {
   auctions: number
   bids: number
+  autoBids: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   auctions?: boolean | UserCountOutputTypeCountAuctionsArgs
   bids?: boolean | UserCountOutputTypeCountBidsArgs
+  autoBids?: boolean | UserCountOutputTypeCountAutoBidsArgs
 }
 
 /**
@@ -544,6 +667,13 @@ export type UserCountOutputTypeCountBidsArgs<ExtArgs extends runtime.Types.Exten
   where?: Prisma.BidWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAutoBidsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AutoBidWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -551,8 +681,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   firstName?: boolean
   lastName?: boolean
   password?: boolean
+  image?: boolean
   auctions?: boolean | Prisma.User$auctionsArgs<ExtArgs>
   bids?: boolean | Prisma.User$bidsArgs<ExtArgs>
+  autoBids?: boolean | Prisma.User$autoBidsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -562,6 +694,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   firstName?: boolean
   lastName?: boolean
   password?: boolean
+  image?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -570,6 +703,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   firstName?: boolean
   lastName?: boolean
   password?: boolean
+  image?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -578,12 +712,14 @@ export type UserSelectScalar = {
   firstName?: boolean
   lastName?: boolean
   password?: boolean
+  image?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "firstName" | "lastName" | "password", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "firstName" | "lastName" | "password" | "image", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   auctions?: boolean | Prisma.User$auctionsArgs<ExtArgs>
   bids?: boolean | Prisma.User$bidsArgs<ExtArgs>
+  autoBids?: boolean | Prisma.User$autoBidsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -594,6 +730,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     auctions: Prisma.$AuctionPayload<ExtArgs>[]
     bids: Prisma.$BidPayload<ExtArgs>[]
+    autoBids: Prisma.$AutoBidPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -601,6 +738,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     firstName: string
     lastName: string
     password: string
+    image: string | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -997,6 +1135,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   auctions<T extends Prisma.User$auctionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auctionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuctionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   bids<T extends Prisma.User$bidsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$bidsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BidPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  autoBids<T extends Prisma.User$autoBidsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$autoBidsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AutoBidPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1031,6 +1170,7 @@ export interface UserFieldRefs {
   readonly firstName: Prisma.FieldRef<"User", 'String'>
   readonly lastName: Prisma.FieldRef<"User", 'String'>
   readonly password: Prisma.FieldRef<"User", 'String'>
+  readonly image: Prisma.FieldRef<"User", 'String'>
 }
     
 
@@ -1464,6 +1604,30 @@ export type User$bidsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   take?: number
   skip?: number
   distinct?: Prisma.BidScalarFieldEnum | Prisma.BidScalarFieldEnum[]
+}
+
+/**
+ * User.autoBids
+ */
+export type User$autoBidsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AutoBid
+   */
+  select?: Prisma.AutoBidSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AutoBid
+   */
+  omit?: Prisma.AutoBidOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AutoBidInclude<ExtArgs> | null
+  where?: Prisma.AutoBidWhereInput
+  orderBy?: Prisma.AutoBidOrderByWithRelationInput | Prisma.AutoBidOrderByWithRelationInput[]
+  cursor?: Prisma.AutoBidWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AutoBidScalarFieldEnum | Prisma.AutoBidScalarFieldEnum[]
 }
 
 /**

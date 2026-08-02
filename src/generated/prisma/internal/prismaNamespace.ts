@@ -386,7 +386,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   Auction: 'Auction',
-  Bid: 'Bid'
+  Bid: 'Bid',
+  AutoBid: 'AutoBid'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -402,7 +403,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "auction" | "bid"
+    modelProps: "user" | "auction" | "bid" | "autoBid"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -628,6 +629,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    AutoBid: {
+      payload: Prisma.$AutoBidPayload<ExtArgs>
+      fields: Prisma.AutoBidFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AutoBidFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AutoBidFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload>
+        }
+        findFirst: {
+          args: Prisma.AutoBidFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AutoBidFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload>
+        }
+        findMany: {
+          args: Prisma.AutoBidFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload>[]
+        }
+        create: {
+          args: Prisma.AutoBidCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload>
+        }
+        createMany: {
+          args: Prisma.AutoBidCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AutoBidCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload>[]
+        }
+        delete: {
+          args: Prisma.AutoBidDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload>
+        }
+        update: {
+          args: Prisma.AutoBidUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload>
+        }
+        deleteMany: {
+          args: Prisma.AutoBidDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AutoBidUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AutoBidUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload>[]
+        }
+        upsert: {
+          args: Prisma.AutoBidUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AutoBidPayload>
+        }
+        aggregate: {
+          args: Prisma.AutoBidAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAutoBid>
+        }
+        groupBy: {
+          args: Prisma.AutoBidGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AutoBidGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AutoBidCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AutoBidCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -672,7 +747,8 @@ export const UserScalarFieldEnum = {
   email: 'email',
   firstName: 'firstName',
   lastName: 'lastName',
-  password: 'password'
+  password: 'password',
+  image: 'image'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -700,6 +776,17 @@ export const BidScalarFieldEnum = {
 } as const
 
 export type BidScalarFieldEnum = (typeof BidScalarFieldEnum)[keyof typeof BidScalarFieldEnum]
+
+
+export const AutoBidScalarFieldEnum = {
+  id: 'id',
+  increment: 'increment',
+  maxPrice: 'maxPrice',
+  userId: 'userId',
+  auctionId: 'auctionId'
+} as const
+
+export type AutoBidScalarFieldEnum = (typeof AutoBidScalarFieldEnum)[keyof typeof AutoBidScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -885,6 +972,7 @@ export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   auction?: Prisma.AuctionOmit
   bid?: Prisma.BidOmit
+  autoBid?: Prisma.AutoBidOmit
 }
 
 /* Types for Logging */

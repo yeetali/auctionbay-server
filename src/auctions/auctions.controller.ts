@@ -28,7 +28,7 @@ export class AuctionsController {
   @ApiConsumes('multipart/form-data')
   @Post('me/auction')
   @UseInterceptors(
-    FileInterceptor('media', {
+    FileInterceptor('image', {
       storage: diskStorage({
         destination: './uploads',
         filename: (req, file, cb) => {
@@ -67,7 +67,7 @@ export class AuctionsController {
   @Patch('me/auction/:id')
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(
-    FileInterceptor('media', {
+    FileInterceptor('image', {
       storage: diskStorage({
         destination: './uploads',
         filename: (req, file, cb) => {

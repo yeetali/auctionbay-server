@@ -32,3 +32,8 @@ export type Auction = Prisma.AuctionModel
  * 
  */
 export type Bid = Prisma.BidModel
+/**
+ * Model AutoBid
+ * 
+ */
+export type AutoBid = Prisma.AutoBidModel

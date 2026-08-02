@@ -53,7 +53,8 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Auction: 'Auction',
-  Bid: 'Bid'
+  Bid: 'Bid',
+  AutoBid: 'AutoBid'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -77,7 +78,8 @@ export const UserScalarFieldEnum = {
   email: 'email',
   firstName: 'firstName',
   lastName: 'lastName',
-  password: 'password'
+  password: 'password',
+  image: 'image'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -105,6 +107,17 @@ export const BidScalarFieldEnum = {
 } as const
 
 export type BidScalarFieldEnum = (typeof BidScalarFieldEnum)[keyof typeof BidScalarFieldEnum]
+
+
+export const AutoBidScalarFieldEnum = {
+  id: 'id',
+  increment: 'increment',
+  maxPrice: 'maxPrice',
+  userId: 'userId',
+  auctionId: 'auctionId'
+} as const
+
+export type AutoBidScalarFieldEnum = (typeof AutoBidScalarFieldEnum)[keyof typeof AutoBidScalarFieldEnum]
 
 
 export const SortOrder = {

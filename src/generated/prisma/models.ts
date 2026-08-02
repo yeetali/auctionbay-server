@@ -11,4 +11,5 @@
 export type * from './models/User.js'
 export type * from './models/Auction.js'
 export type * from './models/Bid.js'
+export type * from './models/AutoBid.js'
 export type * from './commonInputTypes.js'
