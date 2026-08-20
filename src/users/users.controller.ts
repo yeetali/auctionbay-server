@@ -18,7 +18,7 @@ import { Request } from 'express';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Patch('me')
   @ApiConsumes('multipart/form-data')
@@ -40,6 +40,11 @@ export class UsersController {
     @UploadedFile() file?: Express.Multer.File,
   ) {
     return await this.usersService.update(req.user.userId, updateUserDto, file);
+  }
+
+  @Get('me/stats')
+  async getProfileStats(@Req() req: Request & { user: { userId: number } }) {
+    return await this.usersService.getProfileStats(req.user.userId);
   }
 
   @Get()

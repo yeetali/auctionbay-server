@@ -12,7 +12,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) { }
 
   async create(createUserDto: CreateUserDto) {
     try {
@@ -49,6 +49,64 @@ export class UsersService {
         image: true,
       },
     });
+  }
+
+  async getProfileStats(userId: number) {
+    try {
+      const finishedAuctions = await this.prismaService.auction.findMany({
+        where: {
+          authorId: userId,
+          endDate: { lt: new Date() },
+        },
+        include: {
+          bids: {
+            orderBy: { amount: 'desc' },
+            take: 1,
+          },
+        },
+      });
+      const earnings = finishedAuctions.reduce((sum, auction) => {
+        return sum + (auction.bids[0]?.amount ?? 0);
+      }, 0);
+
+      const postedAuctions = await this.prismaService.auction.findMany({
+        where: {
+          authorId: userId,
+        },
+      });
+
+      const biddingAuctions = await this.prismaService.auction.findMany({
+        where: {
+          endDate: { gt: new Date() },
+          bids: {
+            some: { userId },
+          },
+        },
+        include: {
+          bids: {
+            orderBy: { amount: 'desc' },
+            take: 1,
+          },
+        },
+      });
+      const currentlyWinning = biddingAuctions.filter(
+        (auction) => auction.bids[0]?.userId === userId,
+      );
+
+      const wonAuctions = finishedAuctions.filter(
+        (auction) => auction.bids[0].userId === userId,
+      );
+
+      return {
+        earnings,
+        postedAuctions,
+        biddingAuctions,
+        currentlyWinning,
+        wonAuctions,
+      };
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   async findAll() {
