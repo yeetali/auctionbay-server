@@ -94,7 +94,7 @@ export class UsersService {
       );
 
       const wonAuctions = finishedAuctions.filter(
-        (auction) => auction.bids[0].userId === userId,
+        (auction) => auction.bids[0]?.userId === userId,
       );
 
       return {
