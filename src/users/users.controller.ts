@@ -10,7 +10,7 @@ import {
   UploadedFile,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { ApiBody, ApiConsumes } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiResponse } from '@nestjs/swagger';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -23,6 +23,7 @@ export class UsersController {
   @Patch('me')
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: UpdateUserDto })
+  @ApiResponse({ status: 200, type: UpdateUserDto })
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({

@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class UpdateUserDto {
@@ -13,7 +14,7 @@ export class UpdateUserDto {
   @IsNotEmpty()
   email!: string;
 
-  @IsString()
   @IsOptional()
+  @ApiProperty({ type: 'string', format: 'binary', required: false })
   image?: string;
 }
