@@ -12,7 +12,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly prismaService: PrismaService) { }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(createUserDto: CreateUserDto) {
     try {
@@ -46,6 +46,18 @@ export class UsersService {
         firstName: true,
         lastName: true,
         email: true,
+        image: true,
+      },
+    });
+  }
+
+  async updateImage(userId: number, file?: Express.Multer.File) {
+    return await this.prismaService.user.update({
+      where: { id: userId },
+      data: {
+        image: file?.filename,
+      },
+      select: {
         image: true,
       },
     });
