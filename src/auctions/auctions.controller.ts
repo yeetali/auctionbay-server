@@ -66,6 +66,7 @@ export class AuctionsController {
 
   @Patch('me/auction/:id')
   @ApiConsumes('multipart/form-data')
+  @ApiBody({ type: UpdateAuctionDto })
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
