@@ -84,6 +84,7 @@ export class UsersService {
       const postedAuctions = await this.prismaService.auction.findMany({
         where: {
           authorId: userId,
+          endDate: { gt: new Date() },
         },
       });
 
@@ -105,7 +106,22 @@ export class UsersService {
         (auction) => auction.bids[0]?.userId === userId,
       );
 
-      const wonAuctions = finishedAuctions.filter(
+      const expiredAuctions = await this.prismaService.auction.findMany({
+        where: {
+          endDate: { lt: new Date() },
+          bids: {
+            some: { userId },
+          },
+        },
+        include: {
+          bids: {
+            orderBy: { amount: 'desc' },
+            take: 1,
+          },
+        },
+      });
+
+      const wonAuctions = expiredAuctions.filter(
         (auction) => auction.bids[0]?.userId === userId,
       );
 

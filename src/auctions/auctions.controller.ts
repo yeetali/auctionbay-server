@@ -9,6 +9,8 @@ import {
   ParseIntPipe,
   UseInterceptors,
   UploadedFile,
+  Delete,
+  Query,
 } from '@nestjs/common';
 import { AuctionsService } from './auctions.service';
 import { CreateAuctionDto } from './dto/create-auction.dto';
@@ -17,7 +19,7 @@ import { IsPublic } from '../auth/decorators/is-public.decorator';
 import { UpdateAuctionDto } from './dto/update-auction.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { ApiBody, ApiConsumes, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { AuctionResponseDto } from './dto/auction-response.dto';
 
 @Controller()
@@ -52,9 +54,10 @@ export class AuctionsController {
 
   @IsPublic()
   @Get('auctions')
+  @ApiQuery({ name: 'excludeUserId', required: false, type: Number })
   @ApiResponse({ status: 200, type: [AuctionResponseDto] })
-  findAll() {
-    return this.auctionsService.findAll();
+  findAll(@Query('excludeUserId') excludeUserId?: number) {
+    return this.auctionsService.findAll(excludeUserId);
   }
 
   @IsPublic()
@@ -85,5 +88,13 @@ export class AuctionsController {
     @Body() dto: UpdateAuctionDto,
   ) {
     return this.auctionsService.updateAuction(req.user.userId, id, dto, file);
+  }
+
+  @Delete('me/auction/:id')
+  async removeAuction(
+    @Req() req: Request & { user: { userId: number } },
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return await this.auctionsService.removeAuction(id);
   }
 }

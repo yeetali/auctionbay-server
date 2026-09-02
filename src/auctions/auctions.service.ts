@@ -34,12 +34,13 @@ export class AuctionsService {
     }
   }
 
-  async findAll() {
+  async findAll(excludeUserId?: number) {
     return await this.prismaService.auction.findMany({
       where: {
         endDate: {
           gt: new Date(),
         },
+        ...(excludeUserId && { authorId: { not: excludeUserId } }),
       },
       orderBy: {
         endDate: 'asc',
@@ -108,7 +109,13 @@ export class AuctionsService {
     });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} auction`;
+  async removeAuction(id: number) {
+    const auction = await this.prismaService.auction.findUnique({
+      where: { id },
+    });
+    if (!auction) throw new NotFoundException('Auction not found');
+    return this.prismaService.auction.delete({
+      where: { id },
+    });
   }
 }
