@@ -34,6 +34,11 @@ export class AuctionResponseDto {
   @IsDateString()
   endDate!: Date;
 
+  @IsNotEmpty()
+  @IsNumber()
+  @ApiProperty({ type: 'number' })
+  authorId!: number;
+
   @IsArray()
   @ApiProperty({ type: [BidResponseDto] })
   bids?: BidResponseDto[];
