@@ -1,4 +1,4 @@
-import { Controller, Post, Req } from '@nestjs/common';
+import { Controller, Get, Req } from '@nestjs/common';
 import { NotificationsService } from './notifications.service';
 import { Request } from 'express';
 
@@ -6,7 +6,7 @@ import { Request } from 'express';
 export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
-  @Post()
+  @Get()
   async create(@Req() req: Request & { user: { userId: number } }) {
     return await this.notificationsService.getNotifications(req.user.userId);
   }
