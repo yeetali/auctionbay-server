@@ -10,7 +10,6 @@ import {
   UseInterceptors,
   UploadedFile,
   Delete,
-  Query,
 } from '@nestjs/common';
 import { AuctionsService } from './auctions.service';
 import { CreateAuctionDto } from './dto/create-auction.dto';
@@ -19,7 +18,7 @@ import { IsPublic } from '../auth/decorators/is-public.decorator';
 import { UpdateAuctionDto } from './dto/update-auction.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { ApiBody, ApiConsumes, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiResponse } from '@nestjs/swagger';
 import { AuctionResponseDto } from './dto/auction-response.dto';
 
 @Controller()
@@ -54,10 +53,9 @@ export class AuctionsController {
 
   @IsPublic()
   @Get('auctions')
-  @ApiQuery({ name: 'excludeUserId', required: false, type: Number })
   @ApiResponse({ status: 200, type: [AuctionResponseDto] })
-  findAll(@Query('excludeUserId') excludeUserId?: number) {
-    return this.auctionsService.findAll(excludeUserId);
+  findAll() {
+    return this.auctionsService.findAll();
   }
 
   @IsPublic()

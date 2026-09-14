@@ -34,13 +34,12 @@ export class AuctionsService {
     }
   }
 
-  async findAll(excludeUserId?: number) {
+  async findAll() {
     return await this.prismaService.auction.findMany({
       where: {
         endDate: {
           gt: new Date(),
         },
-        ...(excludeUserId && { authorId: { not: excludeUserId } }),
       },
       orderBy: {
         endDate: 'asc',
@@ -99,12 +98,13 @@ export class AuctionsService {
     if (!auction) throw new NotFoundException('Auction not found');
     if (auction.authorId !== userId)
       throw new ForbiddenException('You can only update your own auctions');
+    const { currentImage, ...auctionDto } = dto;
 
     return await this.prismaService.auction.update({
       where: { id: auctionId },
       data: {
-        ...dto,
-        image: file ? file.filename : null,
+        ...auctionDto,
+        image: file ? file.filename : currentImage || null,
       },
     });
   }
