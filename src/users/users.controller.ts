@@ -17,6 +17,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { Request } from 'express';
 import { UpdateImageDto } from './dto/update-image.dto';
+import { ProfileStatsDto } from './dto/profile-stats.dto';
 
 @Controller('users')
 export class UsersController {
@@ -68,6 +69,7 @@ export class UsersController {
   }
 
   @Get('me/stats')
+  @ApiResponse({ status: 200, type: ProfileStatsDto })
   async getProfileStats(@Req() req: Request & { user: { userId: number } }) {
     return await this.usersService.getProfileStats(req.user.userId);
   }

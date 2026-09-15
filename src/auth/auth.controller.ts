@@ -17,9 +17,10 @@ import { AuthGuard } from '@nestjs/passport';
 import { User } from 'src/generated/prisma/client';
 import { UsersService } from 'src/users/users.service';
 import { UpdatePasswordDto } from 'src/users/dto/update-password.dto';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBody, ApiResponse } from '@nestjs/swagger';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { SignInDto } from './dto/sign-in.dto';
+import { UserResponseDto } from 'src/users/dto/user-response.dto';
 
 @Controller()
 export class AuthController {
@@ -52,6 +53,7 @@ export class AuthController {
   }
 
   @Get('me')
+  @ApiResponse({ status: 200, type: UserResponseDto })
   async getProfile(@Req() req: Request & { user: { userId: number } }) {
     return await this.usersService.findOne(req.user.userId);
   }
